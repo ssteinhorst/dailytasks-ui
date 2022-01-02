@@ -29,13 +29,14 @@
     <v-row v-for="task in this.tasks" :key="task.index">
       <v-col>
         <v-simple-checkbox
-            v-model="task.status"
+            v-model="task.completed"
             :label="task.title"
+            v-ripple
         >{{ task.title }}</v-simple-checkbox>
       </v-col>
       <v-col>
         <div>
-        {{task.title}} title
+        {{ task.title }} title
         </div>
       </v-col>
       <v-col>
@@ -58,5 +59,10 @@
     data: () => ({
       // tasks: seeddata.tasks,
     }),
+    methods: {
+      taskDone(index) {
+        this.$emit('taskDone', index);
+      }
+    }
   }
 </script>

@@ -9,6 +9,7 @@
         <v-badge
             color="green"
             :content="tasksDue"
+            :value="tasksDue"
         >
           Reminders
         </v-badge>
@@ -26,7 +27,7 @@
     </v-app-bar>
 
     <v-main>
-      <DailyTasks :tasks=tasks></DailyTasks>
+      <DailyTasks :tasks=tasks @taskDone="taskDone" ></DailyTasks>
     </v-main>
   </v-app>
 </template>
@@ -49,12 +50,33 @@ export default {
     tasksDue: () => {
       const count = tasks.filter(item =>
       {
+        return !item.completed;
+        // console.log("hasrem " + hasrem + " notdone "+notdone)
+        // return hasrem && notdone;
+      }).length;
+      console.log('count ' + count);
+      return count;
+    },
+    remindersDue: () => {
+      const count = tasks.filter(item =>
+      {
         let hasrem = item.reminder !== null;
-        let notdone = !item.status;
+        let notdone = !item.completed;
+        console.log("hasrem " + hasrem + " notdone "+notdone)
         return hasrem && notdone;
       }).length;
-      return count;
+      console.log('count ' + count);
+      return count + 1;
     }
   },
+  methods: {
+    taskDone(index) {
+      this.tasks.forEach((item) => {
+        if(item.index === index) {
+          item.completed = true;
+        }
+      });
+    }
+  }
 };
 </script>

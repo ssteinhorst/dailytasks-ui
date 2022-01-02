@@ -20,7 +20,7 @@
       "title": "Spanish lesson",
       "reminder":  "21:00",
       "note": "me gusta espanol",
-      "status": true
+      "completed": true
     },
     {
       "index": 2,
@@ -28,7 +28,7 @@
       "title": "Exercise",
       "reminder":  null,
       "note": "sweatworks",
-      "status": false
+      "completed": false
     },
     {
       "index": 3,
@@ -36,7 +36,7 @@
       "title": "Take Night meds",
       "reminder": "09:00",
       "note": "bedtime",
-      "status": false
+      "completed": false
     }
   ]
 }
