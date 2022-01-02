@@ -1,0 +1,42 @@
+{
+  "users": [
+    {
+      "name": "Scott Steinhorst",
+      "username": "ssteinhorst",
+      "password": "123456",
+      "roles": ["admin", "user"]
+    },
+    {
+      "name": "Tyler Durden",
+      "username": "soapmaker",
+      "password": "goodpenny",
+      "roles": ["user"]
+    }
+  ],
+  "tasks": [
+    {
+      "index": 1,
+      "owner": "Scott",
+      "title": "Spanish lesson",
+      "reminder":  "21:00",
+      "note": "me gusta espanol",
+      "status": true
+    },
+    {
+      "index": 2,
+      "owner": "Scott",
+      "title": "Exercise",
+      "reminder":  null,
+      "note": "sweatworks",
+      "status": false
+    },
+    {
+      "index": 3,
+      "owner": "Scott",
+      "title": "Take Night meds",
+      "reminder": "09:00",
+      "note": "bedtime",
+      "status": false
+    }
+  ]
+}
