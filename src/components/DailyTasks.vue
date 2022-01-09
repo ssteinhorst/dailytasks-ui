@@ -26,33 +26,23 @@
         <h2>Reminder</h2>
       </v-col>
     </v-row>
-    <v-row v-for="task in this.tasks" :key="task.index">
-      <v-col>
-        <v-simple-checkbox
-            v-model="task.completed"
-            :label="task.title"
-            v-ripple
-        >{{ task.title }}</v-simple-checkbox>
-      </v-col>
-      <v-col>
-        <div>
-        {{ task.title }} title
-        </div>
-      </v-col>
-      <v-col>
-        {{ task.note }} note
-      </v-col>
-      <v-col>
-        <div> {{ task.reminder }} </div>
-      </v-col>
-    </v-row>
+    <task
+        v-for="task in this.tasks"
+        :key="task.index"
+        :task="task"
+        @taskDone="taskDone"
+    ></task>
   </v-container>
 </template>
 
 <script>
-
+import Task from './Task';
   export default {
     name: 'DailyTasks',
+
+    components: {
+      Task,
+    },
     props: {
       tasks: { type: Array }
     },
