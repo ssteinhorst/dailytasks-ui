@@ -5,6 +5,7 @@
         <v-simple-checkbox
             v-model="task.completed"
             :label="task.title"
+            @input="taskClicked"
             v-ripple
         >{{ task.title }}</v-simple-checkbox>
       </v-col>
@@ -33,8 +34,13 @@ export default {
   data: () => ({
   }),
   methods: {
-    taskClicked(index) {
-      this.$emit('taskDone', index);
+    taskClicked(value) {
+      // console.log("in Task.vue");
+      // console.log("Running taskClicked with index: " + value);
+      // console.log({value:value, index:this.task.index});
+      // console.log("leaving Task.vue");
+
+      this.$emit('taskClicked', {value:value, index:this.task.index});
     }
   }
 }

@@ -30,7 +30,7 @@
         v-for="task in this.tasks"
         :key="task.index"
         :task="task"
-        @taskDone="taskDone"
+        @taskClicked="taskClicked"
     ></task>
   </v-container>
 </template>
@@ -50,8 +50,10 @@ import Task from './Task';
       // tasks: seeddata.tasks,
     }),
     methods: {
-      taskDone(index) {
-        this.$emit('taskDone', index);
+      taskClicked(data) {
+        console.log("DailyTasks taskclicked with  index: "+ data.index);
+        console.log("DailyTasks taskclicked with value: "+ data.value);
+        this.$emit('taskClicked', data);
       }
     }
   }

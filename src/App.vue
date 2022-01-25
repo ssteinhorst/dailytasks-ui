@@ -31,7 +31,7 @@
       <DailyTasks
           v-if="tasksLoaded"
           :tasks="this.tasks"
-          @taskDone="taskDone"
+          @taskClicked="taskClicked"
       ></DailyTasks>
     </v-main>
   </v-app>
@@ -39,7 +39,6 @@
 
 <script>
 import DailyTasks from './components/DailyTasks';
-// const { tasks } = require('../api/data/seed-data.json');
 const axios = require('axios');
 const url = require('./config').API_URL;
 
@@ -50,83 +49,43 @@ export default {
     DailyTasks,
   },
   mounted() {
-    // axios.get('http://localhost:4000').then(response => (this.tasks = response.data))
-    this.tasks = this.getTasks();
+    this.tasks = this.getAllTasks();
   },
   data: () => ({
     tasksDue : 0,
-    tasksLoaded: false
+    tasksLoaded: false,
+    tasks: null
   }),
   computed: {
-
-  },
-  methods: {
     getTasksDue: (tasksToCount) => {
-
       const count = tasksToCount.filter(item =>
-          {
-            return !item.completed;
-        // console.log("hasrem " + hasrem + " notdone "+notdone)
-            // return hasrem && notdone;
-              }).length;
+      {
+        return !item.completed;
+      }).length;
       console.log('count ' + count);
       return count;
-
-
-      // console.log('in gettasksDUE');
-      // if(tasksToCount !== null){
-      //   return tasksToCount.length;
-      // }
-      // return 0;
     },
-    async getTasks() {
+  },
+  methods: {
+    async getAllTasks() {
       try {
-        console.log("in gettasks");
-        // const url = `https://api.nytimes.com/svc/topstories/v2/${this.section}.json?api-key=${api}`
-        // const url = process.env.API_URL;
-        console.log("url: "+ url);
-        const response = await axios.get(url)
-        const results = response.data
-        this.tasks = results;
-        console.log("results ");
-        console.dir(results);
-
-        console.log("tasks ");
-        console.dir(this.tasks);
-
+        const response = await axios.get(url);
+        this.tasks = response.data;
         this.tasksLoaded = true;
-
-        this.tasksDue =  this.getTasksDue(results);
-
-        return results;
-        // this.posts = results.map(post => ({
-        //   title: post.title,
-        //   abstract: post.abstract,
-        //   url: post.url,
-        //   thumbnail: this.extractImage(post).url,
-        //   caption: this.extractImage(post).caption,
-        //   byline: post.byline,
-        //   published_date: post.published_date,
-        // }))
+        this.tasksDue =  this.getTasksDue(response.data);
       } catch (err) {
-        if (err.response) {
-          // client received an error response (5xx, 4xx)
-          console.log("Server Error:", err)
-        } else if (err.request) {
-          // client never received a response, or request never left
-          console.log("Network Error:", err)
-        } else {
-          console.log("Client Error:", err)
-        }
+        console.log("API Error:", err);
       }
     },
-    taskDone(index) {
-      console.log('In taskDone root');
+    taskClicked(values) {
+      console.log('In base taskClicked');
       if(this.tasks) {
-        this.tasks.forEach((item) => {
-          if(item.index === index) {
-            item.completed = true;
-          }
+        axios.patch(url, values).then((req, res) => {
+          console.log('adjusting values in dom');
+          console.dir(this.tasks);
+          this.tasks[values.index].completed = values.value;
+          console.dir(this.tasks);
+
         });
       }
     }
