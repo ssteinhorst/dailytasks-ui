@@ -32,16 +32,23 @@
         :task="task"
         @taskClicked="taskClicked"
     ></task>
+    <AddTask
+        @taskAdded="saveNewTask"
+    >
+    </AddTask>
   </v-container>
 </template>
 
 <script>
 import Task from './Task';
+import AddTask from '@/components/AddTask';
+
   export default {
     name: 'DailyTasks',
 
     components: {
       Task,
+      AddTask,
     },
     props: {
       tasks: { type: Array }
@@ -54,6 +61,9 @@ import Task from './Task';
         console.log("DailyTasks taskclicked with  index: "+ data.index);
         console.log("DailyTasks taskclicked with value: "+ data.value);
         this.$emit('taskClicked', data);
+      },
+      saveNewTask(task) {
+        this.$emit('taskAdded', task);
       }
     }
   }

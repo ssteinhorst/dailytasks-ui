@@ -18,6 +18,8 @@
 
       <v-spacer></v-spacer>
 
+      <v-spacer></v-spacer>
+
       <v-btn
         href="localhost"
         target="_blank"
@@ -32,6 +34,7 @@
           v-if="tasksLoaded"
           :tasks="this.tasks"
           @taskClicked="taskClicked"
+          @taskAdded="saveNewTask"
       ></DailyTasks>
     </v-main>
   </v-app>
@@ -54,7 +57,8 @@ export default {
   data: () => ({
     tasksDue : 0,
     tasksLoaded: false,
-    tasks: null
+    tasks: null,
+    user: {},
   }),
   computed: {
     getTasksDue: (tasksToCount) => {
@@ -81,14 +85,26 @@ export default {
       console.log('In base taskClicked');
       if(this.tasks) {
         axios.patch(url, values).then((req, res) => {
-          console.log('adjusting values in dom');
           console.dir(this.tasks);
           this.tasks[values.index].completed = values.value;
           console.dir(this.tasks);
 
         });
       }
-    }
+    },
+    saveNewTask(task) {
+      if(this.tasks) {
+        axios.post(url, task).then((req, res) => {
+          console.log('adding new task in PARENT');
+          console.dir(this.tasks);
+          this.tasks[task.index] = res.data;
+          console.dir(this.tasks);
+
+        }).catch((ex) => {
+          console.log('BROKE: ' + ex);
+        });
+      }
+    },
   }
 };
 </script>
